@@ -13,7 +13,7 @@ const RangeInput = (props) => {
                 max={props.maxValue}
                 value={props.value}
                 step={props.step}
-                onInput={props.onChange}
+                onChange={props.onChange}
             />
         </div>
     )

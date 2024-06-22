@@ -11,7 +11,7 @@ function App() {
     return (
         <>
             <Wrapper>
-                <Header title="Test" />
+                <Header title="Apex Chart" />
                 <Main>
                     <Card>
                         <BarChart/>
