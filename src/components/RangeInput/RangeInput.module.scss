@@ -1,0 +1,66 @@
+@import '../../assets/styles/variables';
+
+.range {
+    width: 100%;
+    max-width: 400px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    border-radius: 15px;
+    height: 6px;
+    background: $alt;
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none; 
+        height: 15px;
+        width: 15px;
+        background-color: $main;
+        border-radius: 50%;
+        border: none;
+        transition: .2s ease-in-out;
+    }
+
+    &::-moz-range-thumb {
+        height: 15px;
+        width: 15px;
+        background-color: $main;
+        border-radius: 50%;
+        border: none;
+        transition: .2s ease-in-out;
+    }
+
+    &::-webkit-slider-thumb:hover {
+        box-shadow: 0 0 0 10px rgba($main, .1)
+    }
+    &:active::-webkit-slider-thumb {
+        box-shadow: 0 0 0 13px rgba($main, .2)
+    }
+    &:focus::-webkit-slider-thumb {
+        box-shadow: 0 0 0 13px rgba($main, .2)
+    }
+    
+    &::-moz-range-thumb:hover {
+        box-shadow: 0 0 0 10px rgba($main, .1)
+    }
+    &:active::-moz-range-thumb {
+        box-shadow: 0 0 0 13px rgba($main, .2)
+    }
+    &:focus::-moz-range-thumb {
+        box-shadow: 0 0 0 13px rgba($main, .2)    
+    }
+}
+
+.holder {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.label {
+    min-width: 200px;
+    font-size: 14px;
+    font-weight: bold;
+}
