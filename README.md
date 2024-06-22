@@ -1,5 +1,7 @@
 # Chart Test Assignment
 
+You can also look at with project implement with TypeScript: `https://github.com/justantvish/chartTest` 
+
 ## How to install project:
 
 1. Clone project to your computer:
