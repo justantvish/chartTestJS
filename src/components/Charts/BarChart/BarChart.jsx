@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import ReactApexChart from "react-apexcharts";
-
 import { API_URL } from "../../../constants";
 import { useFetch } from "../../../hooks/useFetch";
-import { useFilter } from "../../../hooks/useFilter";
 import { findMaxCap } from "../../../utils/findeMaxCap";
-
+import { convertCapToBillions } from "../../../utils/convertCapToBillions";
 import Tooltip from "../../UI/Tooltip/Tooltip";
 import RangeInput from "../../RangeInput/RangeInput";
 
@@ -15,11 +13,27 @@ import classes from './BarChart.module.scss';
 const BarChart = () => {
     const { data } = useFetch(API_URL);
     const {highestMarketCap, highestMarketCapCurrency, lowestMarketCap} = findMaxCap(data);
-
     const [minMarketCap, setMinMarketCap] = useState(lowestMarketCap);
-    console.log(typeof lowestMarketCap, typeof highestMarketCap, typeof minMarketCap)
+    const [filteredCategories, setFilteredCategories] = useState([]);
+    const [filteredMarketCapData, setFilteredMarketCapData] = useState([]);
+    const [filteredMarketCapChangeData, setFilteredMarketCapChangeData] = useState([]);
 
-    const {filteredCategories, filteredMarketCapData, filteredMarketCapChangeData} = useFilter({minMarketCap, data});
+    useEffect(() => {
+        const filteredNames = [];
+        const filteredMarketCapArray = [];
+        const filteredMarketCap24Array = [];
+        const filteredData = data && data.filter(cur =>
+            convertCapToBillions(cur.market_cap) >= minMarketCap
+        );
+        filteredData && filteredData.map(cur => {
+            filteredNames.push(cur.name)
+            filteredMarketCapArray.push(convertCapToBillions(cur.market_cap))
+            filteredMarketCap24Array.push(convertCapToBillions(cur.market_cap_change_24h))
+        });
+        setFilteredCategories(filteredNames)
+        setFilteredMarketCapData(filteredMarketCapArray)
+        setFilteredMarketCapChangeData(filteredMarketCap24Array)
+    }, [data, minMarketCap]);
 
     const chartOptions = {
         annotations: {
@@ -43,7 +57,7 @@ const BarChart = () => {
                             fontSize: '12',
                             fontWeight: 'bold'
                         },
-                        text: 'Highest Market Cap'
+                        text: `Highest Market Cap: ${highestMarketCap}`
                     }
                 }
             ]
@@ -99,8 +113,6 @@ const BarChart = () => {
             }
         },
     };
-
-
     const series = [
         {
             name: 'Market Cap',
@@ -110,10 +122,6 @@ const BarChart = () => {
             data: [...filteredMarketCapChangeData],
         },
     ];
-    
-    const handleRangeChange = (e) => {
-        setMinMarketCap(+e.target.value);
-    };
 
     return (
         <div id="barChart" className={classes.chart}>
@@ -123,8 +131,8 @@ const BarChart = () => {
                 minValue={lowestMarketCap}
                 maxValue={highestMarketCap}
                 value={minMarketCap}
-                step={10}
-                onChange={(e) => handleRangeChange(e)}
+                step={20}
+                onChange={(e) => setMinMarketCap(+e.target.value)}
             />
             <ReactApexChart 
                 options={chartOptions}

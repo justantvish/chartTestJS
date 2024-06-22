@@ -20,6 +20,21 @@
 - Click on the link in the terminal
 - or use this link [http://localhost:5173/]
 
-## Project details
+## Project Details
 
-This project built with React, JavaScript and SCSS.
+- Project built with React, JavaScript and SCSS.
+- API: Coingecko API. Fetched with fetch API
+- Chart: Apex Charts
+
+## Project Structure
+
+- In src folder:
+    - components folder:
+        - Charts folder with barChart component
+        - RangeInput with filter input component
+        - UI folder with Card and Tooltip components
+    - layouts folder with layout components: Wrapper, Main, Header
+    - utils folder with helper functions
+    - hooks folder with custom hooks: useFetch.js
+    - constants.js file with constants, such as API_URL
+    - assets folder with styles 
